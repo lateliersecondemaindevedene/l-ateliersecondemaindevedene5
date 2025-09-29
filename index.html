@@ -8,8 +8,8 @@
   :root{
     --rose:#ff1493; /* boutons / accents */
     --rose-clair:#ff69b4; /* secondaire */
-    --beige:#fdf0e4; /* fond */
-    --beige-clair:#fffaf0; /* cartes */
+    --beige:#f6e7d6; /* fond */
+    --beige-clair:#fff7ee; /* cartes */
   }
   *{box-sizing:border-box}
   body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--beige);color:#333;padding:20px;text-align:center}
@@ -18,7 +18,7 @@
   .categories button{background:var(--rose-clair);border:0;color:#fff;padding:10px 14px;margin:4px;border-radius:8px;cursor:pointer;font-weight:700}
   #boutique{display:flex;flex-wrap:wrap;gap:16px;justify-content:center}
   .produit{width:220px;background:var(--beige-clair);border:1px solid #ffc0cb;border-radius:12px;padding:12px}
-  .produit img{width:100%;height:170px;object-fit:cover;border-radius:10px}
+  .produit img{width:100%;height:170px;object-fit:cover;border-radius:10px;background:#fff}
   .produit h2{font-size:1.05rem;margin:10px 0 6px}
   .produit p{margin:4px 0}
   .produit .description{font-size:.9rem;color:#555;min-height:38px}
@@ -49,8 +49,8 @@
 </div>
 
 <script>
-/* ==== LISTE DES PRODUITS (à modifier si besoin) ==== */
-/* Astuce : si un nom de fichier contient des espaces, ils sont encodés en %20 dans l’URL */
+/* ======= PRODUITS ======= */
+/* Chemin de base vers ton dépôt (raw). */
 const BASE = "https://raw.githubusercontent.com/lateliersecondemaindevedene/l-ateliersecondemaindevedene5/main/";
 
 const produits = [
@@ -75,19 +75,21 @@ const produits = [
     description: "Style intemporel, facile à assortir avec un jean 👖" },
 
   { nom: "Veste bordeaux moderne", prix: 34,
-    image: BASE + "veste%20bordeau.png", /* nom tel qu’uploadé */
+    /* ⚠️ Si ton fichier s'appelle 'veste bordeau.png', change 'bordeaux' -> 'bordeau' ci-dessous */
+    image: BASE + "veste%20bordeaux.png",
     categorie: "Vêtements",
     description: "Sobre et élégante, idéale pour un look raffiné 🍷" },
 
   { nom: "Veste carreaux blanc", prix: 32,
-    image: BASE + "veste%20careau%20blanc.png", /* orthographe du fichier respectée */
+    /* Nom exact vu dans ton dépôt : 'veste careau blanc.png' */
+    image: BASE + "veste%20careau%20blanc.png",
     categorie: "Vêtements",
     description: "Classique et passe-partout, un incontournable 🖤" },
 
   { nom: "Veste Kaporal", prix: 30,
     image: BASE + "veste%20kaporal.png",
     categorie: "Vêtements",
-    description: "Pièce de marque Kaporal, très bon état 👌" },
+    description: "Pièce de la marque Kaporal, très bon état 👌" },
 
   /* Placeholders à compléter quand tu ajoutes 2 nouvelles vestes */
   { nom: "Veste à ajouter", prix: 32,
@@ -101,7 +103,7 @@ const produits = [
     description: "👉 Ajoute la photo dans le dépôt et ajuste le lien" }
 ];
 
-/* ==== RENDU DU CATALOGUE ==== */
+/* ======= CATALOGUE + PANIER ======= */
 let panier = [];
 let filtreActif = "Tout";
 
@@ -109,20 +111,25 @@ const boutiqueDiv = document.getElementById("boutique");
 const listePanier = document.getElementById("liste-panier");
 const totalSpan = document.getElementById("total");
 
+function carteProduit(p, i){
+  const div = document.createElement("div");
+  div.className = "produit";
+  div.innerHTML = `
+    <img src="${p.image}" alt="${p.nom}"
+         onerror="this.src='${BASE}blazernoir.png';this.onerror=null;">
+    <h2>${p.nom}</h2>
+    <p><strong>${p.prix} €</strong></p>
+    <p class="description">${p.description || ""}</p>
+    <button class="ajouter" onclick="ajouterPanier(${i})">Ajouter au panier</button>
+  `;
+  return div;
+}
+
 function afficherProduits(){
   boutiqueDiv.innerHTML = "";
   produits.forEach((p, i) => {
     if (filtreActif === "Tout" || p.categorie === filtreActif){
-      const card = document.createElement("div");
-      card.className = "produit";
-      card.innerHTML = `
-        <img src="${p.image}" alt="${p.nom}" onerror="this.src='${BASE}blazernoir.png';this.onerror=null;">
-        <h2>${p.nom}</h2>
-        <p><strong>${p.prix} €</strong></p>
-        <p class="description">${p.description || ""}</p>
-        <button class="ajouter" onclick="ajouterPanier(${i})">Ajouter au panier</button>
-      `;
-      boutiqueDiv.appendChild(card);
+      boutiqueDiv.appendChild(carteProduit(p, i));
     }
   });
 }
@@ -153,7 +160,7 @@ function afficherPanier(){
   totalSpan.textContent = total.toFixed(2).replace(".", ",");
 }
 
-function changerQte(i, v){ panier[i].quantite = parseInt(v||1); afficherPanier(); }
+function changerQte(i, v){ panier[i].quantite = Math.max(1, parseInt(v||1)); afficherPanier(); }
 function supprimer(i){ panier.splice(i,1); afficherPanier(); }
 
 function payer(){
