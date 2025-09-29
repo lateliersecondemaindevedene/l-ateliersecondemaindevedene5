@@ -1,75 +1,33 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>L’atelier seconde main de Vedène 🌸</title>
 <style>
-  body { 
-    font-family: 'Arial', sans-serif; 
-    margin: 0; 
-    padding: 20px; 
-    text-align: center; 
-    background-color: #fdf0e4; /* beige clair */
-    color: #333;
+  :root{
+    --rose:#ff1493; /* boutons / accents */
+    --rose-clair:#ff69b4; /* secondaire */
+    --beige:#fdf0e4; /* fond */
+    --beige-clair:#fffaf0; /* cartes */
   }
-  h1 { color: #ff1493; font-size: 2em; margin-bottom: 20px; }
-  .categories { margin-bottom: 20px; }
-  .categories button {
-    background-color: #ff69b4;
-    border: none;
-    padding: 10px 15px;
-    margin: 5px;
-    cursor: pointer;
-    border-radius: 5px;
-    color: white;
-    font-weight: bold;
-    font-size: 1em;
-  }
-  #boutique {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 15px;
-  }
-  .produit { 
-    border: 1px solid #ffc0cb; 
-    padding: 10px; 
-    width: 220px; 
-    background-color: #fffaf0;
-    border-radius: 10px;
-    flex: 1 1 220px;
-    box-sizing: border-box;
-  }
-  .produit img { width: 100%; height: 160px; object-fit: cover; border-radius: 10px; }
-  .produit h2 { font-size: 1.1em; margin: 10px 0 5px 0; }
-  .produit p { margin: 5px 0; }
-  .produit p.description { font-size: 0.9em; color: #555; }
-  button.ajouter { 
-    background-color: #ff1493;
-    color: white; 
-    border: none; 
-    padding: 8px; 
-    cursor: pointer; 
-    border-radius: 5px;
-    margin-top: 5px;
-  }
-  #panier { 
-    margin-top: 30px; 
-    border-top: 2px solid #ff1493; 
-    padding-top: 20px; 
-    text-align: left;
-    max-width: 500px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-  #panier li { margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
-  .supprimer { background-color: #ff69b4; margin-left: 5px; padding: 3px 5px; border: none; border-radius: 3px; cursor: pointer;}
-  input[type="number"] { width: 50px; text-align: center; }
-  @media (max-width: 600px) {
-    .produit { width: 100%; }
-    .categories button { font-size: 0.9em; padding: 8px 12px; }
-  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--beige);color:#333;padding:20px;text-align:center}
+  h1{color:var(--rose);margin:10px 0 20px}
+  .categories{margin:10px 0 20px}
+  .categories button{background:var(--rose-clair);border:0;color:#fff;padding:10px 14px;margin:4px;border-radius:8px;cursor:pointer;font-weight:700}
+  #boutique{display:flex;flex-wrap:wrap;gap:16px;justify-content:center}
+  .produit{width:220px;background:var(--beige-clair);border:1px solid #ffc0cb;border-radius:12px;padding:12px}
+  .produit img{width:100%;height:170px;object-fit:cover;border-radius:10px}
+  .produit h2{font-size:1.05rem;margin:10px 0 6px}
+  .produit p{margin:4px 0}
+  .produit .description{font-size:.9rem;color:#555;min-height:38px}
+  .ajouter{background:var(--rose);color:#fff;border:0;padding:8px 10px;border-radius:8px;cursor:pointer}
+  #panier{max-width:560px;margin:30px auto 0;text-align:left;border-top:2px solid var(--rose);padding-top:16px}
+  #panier li{display:flex;justify-content:space-between;align-items:center;margin:8px 0}
+  .supprimer{background:var(--rose-clair);color:#fff;border:0;padding:6px 8px;border-radius:6px;cursor:pointer}
+  input[type=number]{width:56px;text-align:center}
+  @media (max-width:640px){.produit{width:100%}.categories button{padding:8px 12px}}
 </style>
 </head>
 <body>
@@ -86,62 +44,64 @@
 <div id="panier">
   <h2>Panier</h2>
   <ul id="liste-panier"></ul>
-  <p>Total : <span id="total">0</span>€</p>
-  <button onclick="payer()">Payer avec PayPal</button>
+  <p>Total : <span id="total">0</span> €</p>
+  <button class="ajouter" onclick="payer()">Payer avec PayPal</button>
 </div>
 
 <script>
-const produits = [
-  { 
-    nom: "Blazer noir élégant", 
-    prix: 35, 
-    image: "https://raw.githubusercontent.com/lateliersecondemaindevedene/l-ateliersecondemaindevedene5/main/blazernoir.png", 
-    categorie: "Vêtements", 
-    description: "Idéal pour une soirée chic ou un look pro ✨" 
-  },
-  { 
-    nom: "Robe chic", 
-    prix: 38, 
-    image: "https://raw.githubusercontent.com/lateliersecondemaindevedene/l-ateliersecondemaindevedene5/main/robe.png", 
-    categorie: "Vêtements", 
-    description: "Coupe élégante et moderne, parfaite en toute saison 👗" 
-  },
-  { 
-    nom: "Veste carreaux bleus", 
-    prix: 32, 
-    image: "https://raw.githubusercontent.com/lateliersecondemaindevedene/l-ateliersecondemaindevedene5/main/veste%20a%20carreau%20bleu.png", 
-    categorie: "Vêtements", 
-    description: "Motif discret, parfait pour un style casual 💙" 
-  },
-  { 
-    nom: "Veste carreaux noir & blanc", 
-    prix: 32, 
-    image: "https://raw.githubusercontent.com/lateliersecondemaindevedene/l-ateliersecondemaindevedene5/main/veste%20a%20carreau%20noir%20et%20blanc.png", 
-    categorie: "Vêtements", 
-    description: "Style intemporel, facile à assortir avec un jean 👖" 
-  },
-  { 
-    nom: "Veste bordeaux moderne", 
-    prix: 34, 
-    image: "https://raw.githubusercontent.com/lateliersecondemaindevedene/l-ateliersecondemaindevedene5/main/veste%20bordeau.png", 
-    categorie: "Vêtements", 
-    description: "Sobre et élégante, idéale pour un look raffiné 🍷" 
-  },
-  { 
-    nom: "Veste carreaux blanc", 
-    prix: 32, 
-    image: "https://raw.githubusercontent.com/lateliersecondemaindevedene/l-ateliersecondemaindevedene5/main/veste%20careau%20blanc.png", 
-    categorie: "Vêtements", 
-    description: "Classique et passe-partout, un incontournable 🖤" 
-  },
-  { 
-    nom: "Veste Kaporal", 
-    prix: 30, 
-    image: "https://raw.githubusercontent.com/lateliersecondemaindevedene/l-ateliersecondemaindevedene5/main/veste%20kaporal.png", 
-    categorie: "Vêtements", 
-    description: "Une pièce unique de la marque Kaporal 👌" 
-  }
+/* ==== LISTE DES PRODUITS (à modifier si besoin) ==== */
+/* Astuce : si un nom de fichier contient des espaces, ils sont encodés en %20 dans l’URL */
+const BASE = "https://raw.githubusercontent.com/lateliersecondemaindevedene/l-ateliersecondemaindevedene5/main/";
 
+const produits = [
+  { nom: "Blazer noir élégant", prix: 35,
+    image: BASE + "blazernoir.png",
+    categorie: "Vêtements",
+    description: "Idéal pour une soirée chic ou un look pro ✨" },
+
+  { nom: "Robe chic", prix: 38,
+    image: BASE + "robe.png",
+    categorie: "Vêtements",
+    description: "Coupe élégante et moderne, parfaite en toute saison 👗" },
+
+  { nom: "Veste carreaux bleus", prix: 32,
+    image: BASE + "veste%20a%20carreau%20bleu.png",
+    categorie: "Vêtements",
+    description: "Motif discret, parfait pour un style casual 💙" },
+
+  { nom: "Veste carreaux noir & blanc", prix: 32,
+    image: BASE + "veste%20a%20carreau%20noir%20et%20blanc.png",
+    categorie: "Vêtements",
+    description: "Style intemporel, facile à assortir avec un jean 👖" },
+
+  { nom: "Veste bordeaux moderne", prix: 34,
+    image: BASE + "veste%20bordeau.png", /* nom tel qu’uploadé */
+    categorie: "Vêtements",
+    description: "Sobre et élégante, idéale pour un look raffiné 🍷" },
+
+  { nom: "Veste carreaux blanc", prix: 32,
+    image: BASE + "veste%20careau%20blanc.png", /* orthographe du fichier respectée */
+    categorie: "Vêtements",
+    description: "Classique et passe-partout, un incontournable 🖤" },
+
+  { nom: "Veste Kaporal", prix: 30,
+    image: BASE + "veste%20kaporal.png",
+    categorie: "Vêtements",
+    description: "Pièce de marque Kaporal, très bon état 👌" },
+
+  /* Placeholders à compléter quand tu ajoutes 2 nouvelles vestes */
+  { nom: "Veste à ajouter", prix: 32,
+    image: BASE + "veste8.png", /* remplace par le vrai nom une fois uploadé */
+    categorie: "Vêtements",
+    description: "👉 Ajoute la photo dans le dépôt et ajuste le lien" },
+
+  { nom: "Veste à ajouter", prix: 32,
+    image: BASE + "veste9.png",
+    categorie: "Vêtements",
+    description: "👉 Ajoute la photo dans le dépôt et ajuste le lien" }
+];
+
+/* ==== RENDU DU CATALOGUE ==== */
 let panier = [];
 let filtreActif = "Tout";
 
@@ -149,78 +109,59 @@ const boutiqueDiv = document.getElementById("boutique");
 const listePanier = document.getElementById("liste-panier");
 const totalSpan = document.getElementById("total");
 
-function afficherProduits() {
+function afficherProduits(){
   boutiqueDiv.innerHTML = "";
-  produits.forEach((p, index) => {
-    if(filtreActif === "Tout" || p.categorie === filtreActif){
-      const div = document.createElement("div");
-      div.className = "produit";
-      div.innerHTML = `
-        <img src="${p.image}" alt="${p.nom}">
+  produits.forEach((p, i) => {
+    if (filtreActif === "Tout" || p.categorie === filtreActif){
+      const card = document.createElement("div");
+      card.className = "produit";
+      card.innerHTML = `
+        <img src="${p.image}" alt="${p.nom}" onerror="this.src='${BASE}blazernoir.png';this.onerror=null;">
         <h2>${p.nom}</h2>
-        <p><strong>${p.prix}€</strong></p>
-        <p class="description">${p.description}</p>
-        <button class="ajouter" onclick="ajouterPanier(${index})">Ajouter au panier</button>
+        <p><strong>${p.prix} €</strong></p>
+        <p class="description">${p.description || ""}</p>
+        <button class="ajouter" onclick="ajouterPanier(${i})">Ajouter au panier</button>
       `;
-      boutiqueDiv.appendChild(div);
+      boutiqueDiv.appendChild(card);
     }
   });
 }
-
 afficherProduits();
 
-function filtrer(categorie) {
-  filtreActif = categorie;
-  afficherProduits();
-}
+function filtrer(cat){ filtreActif = cat; afficherProduits(); }
 
-function ajouterPanier(index) {
-  const produit = produits[index];
-  const existant = panier.find(item => item.nom === produit.nom);
-  if (existant) {
-    existant.quantite += 1;
-  } else {
-    panier.push({ ...produit, quantite: 1 });
-  }
+function ajouterPanier(i){
+  const p = produits[i];
+  const ex = panier.find(it => it.nom === p.nom);
+  ex ? ex.quantite++ : panier.push({...p, quantite:1});
   afficherPanier();
 }
 
-function afficherPanier() {
+function afficherPanier(){
   listePanier.innerHTML = "";
   let total = 0;
-  panier.forEach((item, i) => {
+  panier.forEach((it, i) => {
+    total += it.prix * it.quantite;
     const li = document.createElement("li");
     li.innerHTML = `
-      <span>${item.nom} - ${item.prix}€ x <input type="number" min="1" value="${item.quantite}" onchange="changerQuantite(${i}, this.value)"></span>
-      <button class="supprimer" onclick="supprimer(${i})">Supprimer</button>
-    `;
+      <span>${it.nom} - ${it.prix} € x
+        <input type="number" min="1" value="${it.quantite}" onchange="changerQte(${i}, this.value)" />
+      </span>
+      <button class="supprimer" onclick="supprimer(${i})">Supprimer</button>`;
     listePanier.appendChild(li);
-    total += item.prix * item.quantite;
   });
-  totalSpan.textContent = total;
+  totalSpan.textContent = total.toFixed(2).replace(".", ",");
 }
 
-function changerQuantite(index, valeur) {
-  panier[index].quantite = parseInt(valeur);
-  afficherPanier();
-}
+function changerQte(i, v){ panier[i].quantite = parseInt(v||1); afficherPanier(); }
+function supprimer(i){ panier.splice(i,1); afficherPanier(); }
 
-function supprimer(index) {
-  panier.splice(index, 1);
-  afficherPanier();
-}
-
-function payer() {
-  if (panier.length === 0) {
-    alert("Votre panier est vide !");
-    return;
-  }
-  let total = panier.reduce((acc, item) => acc + item.prix * item.quantite, 0);
-  let urlPayPal = `https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=TON_EMAIL_PAYPAL&currency_code=EUR&amount=${total}&item_name=Commande+Boutique`;
-  window.open(urlPayPal, "_blank");
+function payer(){
+  if(!panier.length){ alert("Votre panier est vide !"); return; }
+  const total = panier.reduce((s,i)=>s+i.prix*i.quantite,0);
+  const url = `https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=TON_EMAIL_PAYPAL&currency_code=EUR&amount=${total}&item_name=Commande%20Boutique`;
+  window.open(url, "_blank");
 }
 </script>
-
 </body>
 </html>
-
