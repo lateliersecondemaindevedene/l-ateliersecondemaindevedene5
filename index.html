@@ -49,7 +49,29 @@
   #panier li{display:flex;justify-content:space-between;align-items:center;margin:8px 0}
   .supprimer{background:var(--rose-2);color:#fff;border:0;padding:6px 8px;border-radius:6px;cursor:pointer}
   input[type=number]{width:56px;text-align:center}
-  @media (max-width:640px){.produit{width:100%}.categories button{padding:8px 12px}}
+
+  /* Bouton PayPal */
+  .paypal-btn {
+    background:#0070ba;
+    font-weight:bold;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    padding:10px 14px;
+    border:0;
+    border-radius:8px;
+    cursor:pointer;
+    color:#fff;
+  }
+  .paypal-btn:hover {
+    background:#00457c;
+  }
+
+  @media (max-width:640px){
+    .produit{width:100%}
+    .categories button{padding:8px 12px}
+  }
 </style>
 </head>
 <body>
@@ -70,9 +92,16 @@
 </div>
 
 <div class="wrap">
+  <!-- Boutons de catégories -->
   <div class="categories">
     <button onclick="filtrer('Tout')">Tout</button>
-    <button onclick="filtrer('Vêtements')">Vêtements</button>
+    <button onclick="filtrer('Vestes & Manteaux')">Vestes & Manteaux</button>
+    <button onclick="filtrer('Robes')">Robes</button>
+    <button onclick="filtrer('Pantalons & Combinaisons')">Pantalons & Combinaisons</button>
+    <button onclick="filtrer('Jupes')">Jupes</button>
+    <button onclick="filtrer('Pulls & Tee-shirts')">Pulls & Tee-shirts</button>
+    <button onclick="filtrer('Blouses & Chemises')">Blouses & Chemises</button>
+    <button onclick="filtrer('Chaussures & Accessoires')">Chaussures & Accessoires</button>
   </div>
 
   <div id="boutique"></div>
@@ -81,17 +110,22 @@
     <h2>Panier</h2>
     <ul id="liste-panier"></ul>
     <p>Total : <span id="total">0</span> €</p>
-    <button class="ajouter" onclick="payer()">Payer avec PayPal</button>
+    <p style="font-size:0.9rem;color:#555;">
+      💡 Le paiement est 100% sécurisé via PayPal.
+    </p>
+    <button class="paypal-btn" onclick="payer()">
+      <img src="https://www.paypalobjects.com/webstatic/mktg/logo/pp_cc_mark_111x69.jpg"
+           alt="Logo PayPal" style="height:20px;vertical-align:middle;">
+      Payer avec PayPal
+    </button>
   </div>
 </div>
 
 <script>
-/* ====== CHEMINS D'IMAGES ====== */
 const BASE = "https://raw.githubusercontent.com/lateliersecondemaindevedene/l-ateliersecondemaindevedene5/main/";
-const LOGO_URL  = BASE + "LOGO.jpg";          
-const COVER_URL = BASE + "COUVERTURE.jpg";    
+const LOGO_URL  = BASE + "LOGO.jpg";
+const COVER_URL = BASE + "COUVERTURE.jpg";
 
-// Injecte logo + fond si dispo
 (function initHeader(){
   const logoEl = document.getElementById("logo");
   const heroEl = document.getElementById("hero");
@@ -105,55 +139,53 @@ const COVER_URL = BASE + "COUVERTURE.jpg";
   testImg.src = COVER_URL;
 })();
 
-/* ======= PRODUITS ======= */
 const produits = [
   { nom: "Blazer moutarde (Taille M)", prix: 15,
     image: BASE + "blazer%20moutarde%20taille%20m.jpg",
-    categorie: "Vêtements",
+    categorie: "Vestes & Manteaux",
     description: "Couleur moutarde, taille M 💛" },
 
   { nom: "Veste à carreaux rouge & noir", prix: 15,
     image: BASE + "veste%20a%20carreau%20rouge%20et%20noir.jpg",
-    categorie: "Vêtements",
+    categorie: "Vestes & Manteaux",
     description: "Carreaux rouge & noir 🔴⚫" },
 
   { nom: "Blazer noir élégant", prix: 15,
     image: BASE + "blazernoir.png",
-    categorie: "Vêtements",
+    categorie: "Vestes & Manteaux",
     description: "Idéal pour une soirée chic ✨" },
 
   { nom: "Robe chic", prix: 20,
     image: BASE + "robe.png",
-    categorie: "Vêtements",
+    categorie: "Robes",
     description: "Élégante et moderne 👗" },
 
   { nom: "Veste carreaux bleus", prix: 15,
     image: BASE + "veste%20a%20carreau%20bleu.png",
-    categorie: "Vêtements",
+    categorie: "Vestes & Manteaux",
     description: "Style casual 💙" },
 
   { nom: "Veste carreaux noir & blanc", prix: 15,
     image: BASE + "veste%20a%20carreau%20noir%20et%20blanc.png",
-    categorie: "Vêtements",
+    categorie: "Vestes & Manteaux",
     description: "Classique noir & blanc 👖" },
 
   { nom: "Veste bordeaux moderne", prix: 15,
     image: BASE + "veste%20bordeau.png",
-    categorie: "Vêtements",
+    categorie: "Vestes & Manteaux",
     description: "Sobre et raffinée 🍷" },
 
   { nom: "Veste carreaux blanc", prix: 15,
     image: BASE + "veste%20careau%20blanc.png",
-    categorie: "Vêtements",
+    categorie: "Vestes & Manteaux",
     description: "Passe-partout 🤍" },
 
   { nom: "Veste Kaporal", prix: 20,
     image: BASE + "veste%20kaporal.png",
-    categorie: "Vêtements",
+    categorie: "Vestes & Manteaux",
     description: "Kaporal, très bon état 👌" }
 ];
 
-/* ======= CATALOGUE + PANIER ======= */
 let panier = [];
 let filtreActif = "Tout";
 
@@ -216,7 +248,7 @@ function supprimer(i){ panier.splice(i,1); afficherPanier(); }
 function payer(){
   if(!panier.length){ alert("Votre panier est vide !"); return; }
   const total = panier.reduce((s,i)=>s+i.prix*i.quantite,0);
-  const url = `https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=TON_EMAIL_PAYPAL&currency_code=EUR&amount=${total}&item_name=Commande%20Boutique`;
+  const url = `https://www.paypal.com/paypalme/lateliersecondemaind/${total}`;
   window.open(url, "_blank");
 }
 </script>
