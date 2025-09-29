@@ -90,13 +90,77 @@
 
 <script>
 const produits = [
-  { nom: "T-shirt Rose", prix: 20, image: "https://via.placeholder.com/200x150?text=T-shirt+Rose", categorie: "Vêtements" },
-  { nom: "Robe Beige", prix: 35, image: "https://via.placeholder.com/200x150?text=Robe+Beige", categorie: "Vêtements" },
-  { nom: "Sac à main", prix: 25, image: "https://via.placeholder.com/200x150?text=Sac", categorie: "Accessoires" },
-  { nom: "Casquette Girly", prix: 15, image: "https://via.placeholder.com/200x150?text=Casquette", categorie: "Accessoires" },
-  { nom: "Chaussures Roses", prix: 40, image: "https://via.placeholder.com/200x150?text=Chaussures", categorie: "Chaussures" },
-  { nom: "Sandales Beige", prix: 30, image: "https://via.placeholder.com/200x150?text=Sandales", categorie: "Chaussures" }
-];
+ <!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>L’atelier seconde main de Vedène 🌸</title>
+<style>
+  body { 
+    font-family: 'Arial', sans-serif; 
+    margin: 0; 
+    padding: 20px; 
+    text-align: center; 
+    background-color: #fdf0e4; /* beige clair */
+    color: #333;
+  }
+  header {
+    margin-bottom: 20px;
+  }
+  h1 { color: #ff1493; font-size: 2em; margin-bottom: 20px; } /* rose vif */
+  .categories { margin-bottom: 20px; }
+  .categories button {
+    background-color: #ff69b4;
+    border: none;
+    padding: 10px 15px;
+    margin: 5px;
+    cursor: pointer;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    font-size: 1em;
+  }
+  #boutique {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+  }
+  .produit { 
+    border: 1px solid #ffc0cb; 
+    padding: 10px; 
+    width: 200px; 
+    background-color: #fffaf0;
+    border-radius: 10px;
+    flex: 1 1 200px;
+    box-sizing: border-box;
+  }
+  .produit img { width: 100%; height: 150px; object-fit: cover; border-radius: 10px; }
+  button.ajouter { 
+    background-color: #ff1493;
+    color: white; 
+    border: none; 
+    padding: 8px; 
+    cursor: pointer; 
+    border-radius: 5px;
+    margin-top: 5px;
+  }
+  #panier { 
+    margin-top: 30px; 
+    border-top: 2px solid #ff1493; 
+    padding-top: 20px; 
+    text-align: left;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  #panier li { margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
+  .supprimer { background-color: #ff69b4; margin-left: 5px; padding: 3px 5px; border: none; border-radius: 3px; cursor: pointer;}
+  input[type="number"] { width: 50px; text-align: center; }
+  @media (max-width: 600px) {
+    .produit { width: 100%; }
+    .categories button { font-size: 0.9em; padding: 8px
 
 let panier = [];
 let filtreActif = "Tout";
@@ -176,4 +240,5 @@ function payer() {
 }
 </script>
 </body>
+
 </html>
