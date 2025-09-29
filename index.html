@@ -14,4 +14,212 @@
     --texte:#333;
   }
   *{box-sizing:border-box}
-  body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var
+  body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--beige);color:var(--texte)}
+
+  /* HERO */
+  .hero{
+    position:relative;min-height:240px;display:flex;align-items:center;justify-content:center;
+    padding:24px 16px;text-align:center;background:linear-gradient(180deg, rgba(255,105,180,.20), rgba(246,231,214,.85));
+    background-size:cover;background-position:center;
+  }
+  .hero.has-cover{background-image:var(--hero-img);}
+  .hero .overlay{background:rgba(255,255,255,.75);border:1px solid #ffd2e4;border-radius:16px;
+    padding:14px 18px;max-width:920px;width:calc(100% - 24px)}
+  .topbar{display:flex;gap:12px;align-items:center;justify-content:center;margin-bottom:10px}
+  .logo{height:64px;max-width:220px;object-fit:contain}
+  h1{margin:6px 0 8px;color:var(--rose)}
+  .tagline{margin:0;color:#5a4d41;font-weight:600}
+  .badges{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:8px}
+  .badge{background:#ffe3ef;color:#8b3a5b;border:1px solid #ffc6dc;border-radius:999px;padding:6px 10px;font-size:.9rem}
+
+  /* CATALOGUE */
+  .wrap{padding:18px}
+  .categories{margin:12px 0 22px;text-align:center}
+  .categories button{background:var(--rose-2);border:0;color:#fff;padding:10px 14px;margin:4px;border-radius:8px;cursor:pointer;font-weight:700}
+  #boutique{display:flex;flex-wrap:wrap;gap:16px;justify-content:center}
+  .produit{width:220px;background:var(--beige-2);border:1px solid #ffc0cb;border-radius:12px;padding:12px;text-align:center}
+  .produit img{width:100%;height:170px;object-fit:cover;border-radius:10px;background:#fff}
+  .produit h2{font-size:1.05rem;margin:10px 0 6px}
+  .produit p{margin:4px 0}
+  .produit .description{font-size:.9rem;color:#555;min-height:38px}
+  .ajouter{background:var(--rose);color:#fff;border:0;padding:8px 10px;border-radius:8px;cursor:pointer}
+
+  /* PANIER */
+  #panier{max-width:560px;margin:30px auto 24px;text-align:left;border-top:2px solid var(--rose);padding-top:16px}
+  #panier li{display:flex;justify-content:space-between;align-items:center;margin:8px 0}
+  .supprimer{background:var(--rose-2);color:#fff;border:0;padding:6px 8px;border-radius:6px;cursor:pointer}
+  input[type=number]{width:56px;text-align:center}
+  @media (max-width:640px){.produit{width:100%}.categories button{padding:8px 12px}}
+</style>
+</head>
+<body>
+
+<!-- HERO avec logo + couverture + description -->
+<div id="hero" class="hero">
+  <div class="overlay">
+    <div class="topbar">
+      <img id="logo" class="logo" alt="Logo L’atelier seconde main de Vedène" />
+      <h1>L’atelier seconde main de Vedène</h1>
+    </div>
+    <p class="tagline">🧥 <strong>Friperie en ligne – Vedène</strong></p>
+    <div class="badges">
+      <span class="badge">🌿 Mode seconde main & éco-responsable</span>
+      <span class="badge">✨ Pièces uniques, petit prix</span>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="categories">
+    <button onclick="filtrer('Tout')">Tout</button>
+    <button onclick="filtrer('Vêtements')">Vêtements</button>
+  </div>
+
+  <div id="boutique"></div>
+
+  <div id="panier">
+    <h2>Panier</h2>
+    <ul id="liste-panier"></ul>
+    <p>Total : <span id="total">0</span> €</p>
+    <button class="ajouter" onclick="payer()">Payer avec PayPal</button>
+  </div>
+</div>
+
+<script>
+/* ====== CHEMINS D'IMAGES ====== */
+const BASE = "https://raw.githubusercontent.com/lateliersecondemaindevedene/l-ateliersecondemaindevedene5/main/";
+const LOGO_URL  = BASE + "LOGO.jpg";          
+const COVER_URL = BASE + "COUVERTURE.jpg";    
+
+// Injecte logo + fond si dispo
+(function initHeader(){
+  const logoEl = document.getElementById("logo");
+  const heroEl = document.getElementById("hero");
+  logoEl.src = LOGO_URL;
+  logoEl.onerror = () => { logoEl.style.display = "none"; };
+  const testImg = new Image();
+  testImg.onload = () => {
+    heroEl.classList.add("has-cover");
+    heroEl.style.setProperty("--hero-img", `url('${COVER_URL}')`);
+  };
+  testImg.src = COVER_URL;
+})();
+
+/* ======= PRODUITS ======= */
+const produits = [
+  { nom: "Blazer moutarde (Taille M)", prix: 15,
+    image: BASE + "blazer%20moutarde%20taille%20m.jpg",
+    categorie: "Vêtements",
+    description: "Couleur moutarde, taille M 💛" },
+
+  { nom: "Veste à carreaux rouge & noir", prix: 15,
+    image: BASE + "veste%20a%20carreau%20rouge%20et%20noir.jpg",
+    categorie: "Vêtements",
+    description: "Carreaux rouge & noir 🔴⚫" },
+
+  { nom: "Blazer noir élégant", prix: 15,
+    image: BASE + "blazernoir.png",
+    categorie: "Vêtements",
+    description: "Idéal pour une soirée chic ✨" },
+
+  { nom: "Robe chic", prix: 20,
+    image: BASE + "robe.png",
+    categorie: "Vêtements",
+    description: "Élégante et moderne 👗" },
+
+  { nom: "Veste carreaux bleus", prix: 15,
+    image: BASE + "veste%20a%20carreau%20bleu.png",
+    categorie: "Vêtements",
+    description: "Style casual 💙" },
+
+  { nom: "Veste carreaux noir & blanc", prix: 15,
+    image: BASE + "veste%20a%20carreau%20noir%20et%20blanc.png",
+    categorie: "Vêtements",
+    description: "Classique noir & blanc 👖" },
+
+  { nom: "Veste bordeaux moderne", prix: 15,
+    image: BASE + "veste%20bordeau.png",
+    categorie: "Vêtements",
+    description: "Sobre et raffinée 🍷" },
+
+  { nom: "Veste carreaux blanc", prix: 15,
+    image: BASE + "veste%20careau%20blanc.png",
+    categorie: "Vêtements",
+    description: "Passe-partout 🤍" },
+
+  { nom: "Veste Kaporal", prix: 20,
+    image: BASE + "veste%20kaporal.png",
+    categorie: "Vêtements",
+    description: "Kaporal, très bon état 👌" }
+];
+
+/* ======= CATALOGUE + PANIER ======= */
+let panier = [];
+let filtreActif = "Tout";
+
+const boutiqueDiv = document.getElementById("boutique");
+const listePanier = document.getElementById("liste-panier");
+const totalSpan = document.getElementById("total");
+
+function carteProduit(p, i){
+  const div = document.createElement("div");
+  div.className = "produit";
+  div.innerHTML = `
+    <img src="${p.image}" alt="${p.nom}"
+         onerror="this.src='${BASE}blazernoir.png';this.onerror=null;">
+    <h2>${p.nom}</h2>
+    <p><strong>${p.prix} €</strong></p>
+    <p class="description">${p.description || ""}</p>
+    <button class="ajouter" onclick="ajouterPanier(${i})">Ajouter au panier</button>
+  `;
+  return div;
+}
+
+function afficherProduits(){
+  boutiqueDiv.innerHTML = "";
+  produits.forEach((p, i) => {
+    if (filtreActif === "Tout" || p.categorie === filtreActif){
+      boutiqueDiv.appendChild(carteProduit(p, i));
+    }
+  });
+}
+afficherProduits();
+
+function filtrer(cat){ filtreActif = cat; afficherProduits(); }
+
+function ajouterPanier(i){
+  const p = produits[i];
+  const ex = panier.find(it => it.nom === p.nom);
+  ex ? ex.quantite++ : panier.push({...p, quantite:1});
+  afficherPanier();
+}
+
+function afficherPanier(){
+  listePanier.innerHTML = "";
+  let total = 0;
+  panier.forEach((it, i) => {
+    total += it.prix * it.quantite;
+    const li = document.createElement("li");
+    li.innerHTML = `
+      <span>${it.nom} - ${it.prix} € x
+        <input type="number" min="1" value="${it.quantite}" onchange="changerQte(${i}, this.value)" />
+      </span>
+      <button class="supprimer" onclick="supprimer(${i})">Supprimer</button>`;
+    listePanier.appendChild(li);
+  });
+  totalSpan.textContent = total.toFixed(2).replace(".", ",");
+}
+
+function changerQte(i, v){ panier[i].quantite = Math.max(1, parseInt(v||1)); afficherPanier(); }
+function supprimer(i){ panier.splice(i,1); afficherPanier(); }
+
+function payer(){
+  if(!panier.length){ alert("Votre panier est vide !"); return; }
+  const total = panier.reduce((s,i)=>s+i.prix*i.quantite,0);
+  const url = `https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=TON_EMAIL_PAYPAL&currency_code=EUR&amount=${total}&item_name=Commande%20Boutique`;
+  window.open(url, "_blank");
+}
+</script>
+
+</body>
+</html>
