@@ -92,16 +92,55 @@
 
 <script>
 const produits = [
-  { nom: "Veste beige & moutarde", prix: 28, image: "URL_IMAGE_1", categorie: "Vêtements", description: "Veste vintage bicolore, parfaite pour l’automne 🍂" },
-  { nom: "Veste carreaux noir & blanc", prix: 32, image: "URL_IMAGE_2", categorie: "Vêtements", description: "Style intemporel, facile à assortir avec un jean 👖" },
-  { nom: "Blazer noir élégant", prix: 35, image: "URL_IMAGE_3", categorie: "Vêtements", description: "Idéal pour une soirée chic ou un look pro ✨" },
-  { nom: "Veste imprimée fleurie", prix: 30, image: "URL_IMAGE_4", categorie: "Vêtements", description: "Féminine et légère, à porter au printemps 🌸" },
-  { nom: "Robe rayée chic", prix: 38, image: "URL_IMAGE_5", categorie: "Vêtements", description: "Coupe élégante et moderne, parfaite en toute saison 👗" },
-  { nom: "Veste carreaux rouge", prix: 32, image: "URL_IMAGE_6", categorie: "Vêtements", description: "Look tendance avec une touche de couleur ❤️" },
-  { nom: "Veste bordeaux moderne", prix: 34, image: "URL_IMAGE_7", categorie: "Vêtements", description: "Sobre et élégante, idéale pour un look raffiné 🍷" },
-  { nom: "Veste carreaux bleus", prix: 32, image: "URL_IMAGE_8", categorie: "Vêtements", description: "Motif discret, parfait pour un style casual 💙" },
-  { nom: "Veste carreaux gris", prix: 32, image: "URL_IMAGE_9", categorie: "Vêtements", description: "Classique et passe-partout, un incontournable 🖤" }
-];
+  { 
+    nom: "Blazer noir élégant", 
+    prix: 35, 
+    image: "https://raw.githubusercontent.com/lateliersecondemaindevedene/l-ateliersecondemaindevedene5/main/blazernoir.png", 
+    categorie: "Vêtements", 
+    description: "Idéal pour une soirée chic ou un look pro ✨" 
+  },
+  { 
+    nom: "Robe chic", 
+    prix: 38, 
+    image: "https://raw.githubusercontent.com/lateliersecondemaindevedene/l-ateliersecondemaindevedene5/main/robe.png", 
+    categorie: "Vêtements", 
+    description: "Coupe élégante et moderne, parfaite en toute saison 👗" 
+  },
+  { 
+    nom: "Veste carreaux bleus", 
+    prix: 32, 
+    image: "https://raw.githubusercontent.com/lateliersecondemaindevedene/l-ateliersecondemaindevedene5/main/veste%20a%20carreau%20bleu.png", 
+    categorie: "Vêtements", 
+    description: "Motif discret, parfait pour un style casual 💙" 
+  },
+  { 
+    nom: "Veste carreaux noir & blanc", 
+    prix: 32, 
+    image: "https://raw.githubusercontent.com/lateliersecondemaindevedene/l-ateliersecondemaindevedene5/main/veste%20a%20carreau%20noir%20et%20blanc.png", 
+    categorie: "Vêtements", 
+    description: "Style intemporel, facile à assortir avec un jean 👖" 
+  },
+  { 
+    nom: "Veste bordeaux moderne", 
+    prix: 34, 
+    image: "https://raw.githubusercontent.com/lateliersecondemaindevedene/l-ateliersecondemaindevedene5/main/veste%20bordeau.png", 
+    categorie: "Vêtements", 
+    description: "Sobre et élégante, idéale pour un look raffiné 🍷" 
+  },
+  { 
+    nom: "Veste carreaux blanc", 
+    prix: 32, 
+    image: "https://raw.githubusercontent.com/lateliersecondemaindevedene/l-ateliersecondemaindevedene5/main/veste%20careau%20blanc.png", 
+    categorie: "Vêtements", 
+    description: "Classique et passe-partout, un incontournable 🖤" 
+  },
+  { 
+    nom: "Veste Kaporal", 
+    prix: 30, 
+    image: "https://raw.githubusercontent.com/lateliersecondemaindevedene/l-ateliersecondemaindevedene5/main/veste%20kaporal.png", 
+    categorie: "Vêtements", 
+    description: "Une pièce unique de la marque Kaporal 👌" 
+  }
 
 let panier = [];
 let filtreActif = "Tout";
@@ -184,3 +223,4 @@ function payer() {
 
 </body>
 </html>
+
