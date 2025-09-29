@@ -3,57 +3,119 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>L’atelier seconde main de Vedène 🌸</title>
+<title>L’atelier seconde main de Vedène 🌸 — Friperie en ligne</title>
+<meta name="description" content="Friperie en ligne – Vedène • Mode seconde main & éco-responsable • Pièces uniques, petit prix" />
 <style>
   :root{
-    --rose:#ff1493; /* boutons / accents */
-    --rose-clair:#ff69b4; /* secondaire */
-    --beige:#f6e7d6; /* fond */
-    --beige-clair:#fff7ee; /* cartes */
+    --rose:#ff1493;        /* boutons / accents */
+    --rose-2:#ff69b4;      /* secondaire */
+    --beige:#f6e7d6;       /* fond */
+    --beige-2:#fff7ee;     /* cartes */
+    --texte:#333;
   }
   *{box-sizing:border-box}
-  body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--beige);color:#333;padding:20px;text-align:center}
-  h1{color:var(--rose);margin:10px 0 20px}
-  .categories{margin:10px 0 20px}
-  .categories button{background:var(--rose-clair);border:0;color:#fff;padding:10px 14px;margin:4px;border-radius:8px;cursor:pointer;font-weight:700}
+  body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--beige);color:var(--texte)}
+  .hero{
+    position:relative;min-height:240px;display:flex;align-items:center;justify-content:center;
+    padding:24px 16px;text-align:center;background:linear-gradient(180deg, rgba(255,105,180,.20), rgba(246,231,214,.85));
+    background-size:cover;background-position:center;
+  }
+  .hero.has-cover{background-image:var(--hero-img);}
+  .hero .overlay{background:rgba(255,255,255,.75);border:1px solid #ffd2e4;border-radius:16px;
+    padding:14px 18px;max-width:920px;width:calc(100% - 24px)}
+  .topbar{display:flex;gap:12px;align-items:center;justify-content:center;margin-bottom:10px}
+  .logo{height:64px;max-width:220px;object-fit:contain}
+  h1{margin:6px 0 8px;color:var(--rose)}
+  .tagline{margin:0;color:#5a4d41;font-weight:600}
+  .badges{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:8px}
+  .badge{background:#ffe3ef;color:#8b3a5b;border:1px solid #ffc6dc;border-radius:999px;padding:6px 10px;font-size:.9rem}
+
+  .wrap{padding:18px}
+  .categories{margin:12px 0 22px;text-align:center}
+  .categories button{background:var(--rose-2);border:0;color:#fff;padding:10px 14px;margin:4px;border-radius:8px;cursor:pointer;font-weight:700}
   #boutique{display:flex;flex-wrap:wrap;gap:16px;justify-content:center}
-  .produit{width:220px;background:var(--beige-clair);border:1px solid #ffc0cb;border-radius:12px;padding:12px}
+  .produit{width:220px;background:var(--beige-2);border:1px solid #ffc0cb;border-radius:12px;padding:12px;text-align:center}
   .produit img{width:100%;height:170px;object-fit:cover;border-radius:10px;background:#fff}
   .produit h2{font-size:1.05rem;margin:10px 0 6px}
   .produit p{margin:4px 0}
   .produit .description{font-size:.9rem;color:#555;min-height:38px}
   .ajouter{background:var(--rose);color:#fff;border:0;padding:8px 10px;border-radius:8px;cursor:pointer}
-  #panier{max-width:560px;margin:30px auto 0;text-align:left;border-top:2px solid var(--rose);padding-top:16px}
+  #panier{max-width:560px;margin:30px auto 24px;text-align:left;border-top:2px solid var(--rose);padding-top:16px}
   #panier li{display:flex;justify-content:space-between;align-items:center;margin:8px 0}
-  .supprimer{background:var(--rose-clair);color:#fff;border:0;padding:6px 8px;border-radius:6px;cursor:pointer}
+  .supprimer{background:var(--rose-2);color:#fff;border:0;padding:6px 8px;border-radius:6px;cursor:pointer}
   input[type=number]{width:56px;text-align:center}
   @media (max-width:640px){.produit{width:100%}.categories button{padding:8px 12px}}
 </style>
 </head>
 <body>
 
-<h1>L’atelier seconde main de Vedène 🌸</h1>
-
-<div class="categories">
-  <button onclick="filtrer('Tout')">Tout</button>
-  <button onclick="filtrer('Vêtements')">Vêtements</button>
+<!-- HERO avec logo + couverture + description -->
+<div id="hero" class="hero">
+  <div class="overlay">
+    <div class="topbar">
+      <img id="logo" class="logo" alt="Logo L’atelier seconde main de Vedène" />
+      <h1>L’atelier seconde main de Vedène</h1>
+    </div>
+    <p class="tagline">🧥 <strong>Friperie en ligne – Vedène</strong></p>
+    <div class="badges">
+      <span class="badge">🌿 Mode seconde main & éco-responsable</span>
+      <span class="badge">✨ Pièces uniques, petit prix</span>
+    </div>
+  </div>
 </div>
 
-<div id="boutique"></div>
+<div class="wrap">
+  <div class="categories">
+    <button onclick="filtrer('Tout')">Tout</button>
+    <button onclick="filtrer('Vêtements')">Vêtements</button>
+  </div>
 
-<div id="panier">
-  <h2>Panier</h2>
-  <ul id="liste-panier"></ul>
-  <p>Total : <span id="total">0</span> €</p>
-  <button class="ajouter" onclick="payer()">Payer avec PayPal</button>
+  <div id="boutique"></div>
+
+  <div id="panier">
+    <h2>Panier</h2>
+    <ul id="liste-panier"></ul>
+    <p>Total : <span id="total">0</span> €</p>
+    <button class="ajouter" onclick="payer()">Payer avec PayPal</button>
+  </div>
 </div>
 
 <script>
-/* ======= PRODUITS ======= */
-/* Chemin de base vers ton dépôt (raw). */
+/* ====== CHEMINS D'IMAGES ====== */
 const BASE = "https://raw.githubusercontent.com/lateliersecondemaindevedene/l-ateliersecondemaindevedene5/main/";
+const LOGO_URL  = BASE + "LOGO.jpg";          // ton logo
+const COVER_URL = BASE + "COUVERTURE.jpg";    // ta couverture
 
+// Injecte logo + fond si dispos (sinon, pas d'erreur)
+(function initHeader(){
+  const logoEl = document.getElementById("logo");
+  const heroEl = document.getElementById("hero");
+  logoEl.src = LOGO_URL;
+  logoEl.onerror = () => { logoEl.style.display = "none"; };
+  const testImg = new Image();
+  testImg.onload = () => {
+    heroEl.classList.add("has-cover");
+    heroEl.style.setProperty("--hero-img", `url('${COVER_URL}')`);
+  };
+  testImg.src = COVER_URL;
+})();
+
+/* ======= PRODUITS =======
+   1) Veste 1 : 10€ — Taille M
+   2) Veste 2 : prix indicatif (modifie si besoin)
+   + tes autres pièces déjà uploadées (PNG)
+*/
 const produits = [
+  { nom: "Blazer moutarde (Taille M)", prix: 10,
+    image: BASE + "blazer%20moutarde%20taille%20m.jpg",
+    categorie: "Vêtements",
+    description: "Couleur moutarde, taille M — petit prix 💛" },
+
+  { nom: "Veste à carreaux rouge & noir", prix: 32,
+    image: BASE + "veste%20a%20carreau%20rouge%20et%20noir.jpg",
+    categorie: "Vêtements",
+    description: "Carreaux rouge & noir, parfaite avec un jean 🔴⚫" },
+
   { nom: "Blazer noir élégant", prix: 35,
     image: BASE + "blazernoir.png",
     categorie: "Vêtements",
@@ -75,32 +137,19 @@ const produits = [
     description: "Style intemporel, facile à assortir avec un jean 👖" },
 
   { nom: "Veste bordeaux moderne", prix: 34,
-    /* ⚠️ Si ton fichier s'appelle 'veste bordeau.png', change 'bordeaux' -> 'bordeau' ci-dessous */
-    image: BASE + "veste%20bordeaux.png",
+    image: BASE + "veste%20bordeau.png",
     categorie: "Vêtements",
     description: "Sobre et élégante, idéale pour un look raffiné 🍷" },
 
   { nom: "Veste carreaux blanc", prix: 32,
-    /* Nom exact vu dans ton dépôt : 'veste careau blanc.png' */
     image: BASE + "veste%20careau%20blanc.png",
     categorie: "Vêtements",
-    description: "Classique et passe-partout, un incontournable 🖤" },
+    description: "Classique et passe-partout, un incontournable 🤍" },
 
   { nom: "Veste Kaporal", prix: 30,
     image: BASE + "veste%20kaporal.png",
     categorie: "Vêtements",
-    description: "Pièce de la marque Kaporal, très bon état 👌" },
-
-  /* Placeholders à compléter quand tu ajoutes 2 nouvelles vestes */
-  { nom: "Veste à ajouter", prix: 32,
-    image: BASE + "veste8.png", /* remplace par le vrai nom une fois uploadé */
-    categorie: "Vêtements",
-    description: "👉 Ajoute la photo dans le dépôt et ajuste le lien" },
-
-  { nom: "Veste à ajouter", prix: 32,
-    image: BASE + "veste9.png",
-    categorie: "Vêtements",
-    description: "👉 Ajoute la photo dans le dépôt et ajuste le lien" }
+    description: "Pièce de la marque Kaporal, très bon état 👌" }
 ];
 
 /* ======= CATALOGUE + PANIER ======= */
@@ -117,58 +166,3 @@ function carteProduit(p, i){
   div.innerHTML = `
     <img src="${p.image}" alt="${p.nom}"
          onerror="this.src='${BASE}blazernoir.png';this.onerror=null;">
-    <h2>${p.nom}</h2>
-    <p><strong>${p.prix} €</strong></p>
-    <p class="description">${p.description || ""}</p>
-    <button class="ajouter" onclick="ajouterPanier(${i})">Ajouter au panier</button>
-  `;
-  return div;
-}
-
-function afficherProduits(){
-  boutiqueDiv.innerHTML = "";
-  produits.forEach((p, i) => {
-    if (filtreActif === "Tout" || p.categorie === filtreActif){
-      boutiqueDiv.appendChild(carteProduit(p, i));
-    }
-  });
-}
-afficherProduits();
-
-function filtrer(cat){ filtreActif = cat; afficherProduits(); }
-
-function ajouterPanier(i){
-  const p = produits[i];
-  const ex = panier.find(it => it.nom === p.nom);
-  ex ? ex.quantite++ : panier.push({...p, quantite:1});
-  afficherPanier();
-}
-
-function afficherPanier(){
-  listePanier.innerHTML = "";
-  let total = 0;
-  panier.forEach((it, i) => {
-    total += it.prix * it.quantite;
-    const li = document.createElement("li");
-    li.innerHTML = `
-      <span>${it.nom} - ${it.prix} € x
-        <input type="number" min="1" value="${it.quantite}" onchange="changerQte(${i}, this.value)" />
-      </span>
-      <button class="supprimer" onclick="supprimer(${i})">Supprimer</button>`;
-    listePanier.appendChild(li);
-  });
-  totalSpan.textContent = total.toFixed(2).replace(".", ",");
-}
-
-function changerQte(i, v){ panier[i].quantite = Math.max(1, parseInt(v||1)); afficherPanier(); }
-function supprimer(i){ panier.splice(i,1); afficherPanier(); }
-
-function payer(){
-  if(!panier.length){ alert("Votre panier est vide !"); return; }
-  const total = panier.reduce((s,i)=>s+i.prix*i.quantite,0);
-  const url = `https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=TON_EMAIL_PAYPAL&currency_code=EUR&amount=${total}&item_name=Commande%20Boutique`;
-  window.open(url, "_blank");
-}
-</script>
-</body>
-</html>
