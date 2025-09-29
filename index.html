@@ -10,105 +10,10 @@
     margin: 0; 
     padding: 20px; 
     text-align: center; 
-    background-color: #fff0f5; /* beige rosé clair */
-    color: #333;
-  }
-  h1 { color: #ff69b4; font-size: 2em; margin-bottom: 20px; }
-  .categories { margin-bottom: 20px; }
-  .categories button {
-    background-color: #ffb6c1; 
-    border: none;
-    padding: 10px 15px;
-    margin: 5px;
-    cursor: pointer;
-    border-radius: 5px;
-    color: white;
-    font-weight: bold;
-    font-size: 1em;
-  }
-  #boutique {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 15px;
-  }
-  .produit { 
-    border: 1px solid #ffc0cb; 
-    padding: 10px; 
-    width: 200px; 
-    background-color: #fffaf0; 
-    border-radius: 10px;
-    flex: 1 1 200px;
-    box-sizing: border-box;
-  }
-  .produit img { width: 100%; height: 150px; object-fit: cover; border-radius: 10px; }
-  button.ajouter { 
-    background-color: #ff69b4; 
-    color: white; 
-    border: none; 
-    padding: 8px; 
-    cursor: pointer; 
-    border-radius: 5px;
-    margin-top: 5px;
-  }
-  #panier { 
-    margin-top: 30px; 
-    border-top: 2px solid #ff69b4; 
-    padding-top: 20px; 
-    text-align: left;
-    max-width: 500px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-  #panier li { margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
-  .supprimer { background-color: #ff1493; margin-left: 5px; padding: 3px 5px; border: none; border-radius: 3px; cursor: pointer;}
-  input[type="number"] { width: 50px; text-align: center; }
-  @media (max-width: 600px) {
-    .produit { width: 100%; }
-    .categories button { font-size: 0.9em; padding: 8px 12px; }
-  }
-</style>
-</head>
-<body>
-<h1>L’atelier seconde main de Vedène 🌸</h1>
-
-<div class="categories">
-  <button onclick="filtrer('Tout')">Tout</button>
-  <button onclick="filtrer('Vêtements')">Vêtements</button>
-  <button onclick="filtrer('Accessoires')">Accessoires</button>
-  <button onclick="filtrer('Chaussures')">Chaussures</button>
-</div>
-
-<div id="boutique"></div>
-
-<div id="panier">
-  <h2>Panier</h2>
-  <ul id="liste-panier"></ul>
-  <p>Total : <span id="total">0</span>€</p>
-  <button onclick="payer()">Payer avec PayPal</button>
-</div>
-
-<script>
-const produits = [
- <!DOCTYPE html>
-<html lang="fr">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>L’atelier seconde main de Vedène 🌸</title>
-<style>
-  body { 
-    font-family: 'Arial', sans-serif; 
-    margin: 0; 
-    padding: 20px; 
-    text-align: center; 
     background-color: #fdf0e4; /* beige clair */
     color: #333;
   }
-  header {
-    margin-bottom: 20px;
-  }
-  h1 { color: #ff1493; font-size: 2em; margin-bottom: 20px; } /* rose vif */
+  h1 { color: #ff1493; font-size: 2em; margin-bottom: 20px; }
   .categories { margin-bottom: 20px; }
   .categories button {
     background-color: #ff69b4;
@@ -130,13 +35,16 @@ const produits = [
   .produit { 
     border: 1px solid #ffc0cb; 
     padding: 10px; 
-    width: 200px; 
+    width: 220px; 
     background-color: #fffaf0;
     border-radius: 10px;
-    flex: 1 1 200px;
+    flex: 1 1 220px;
     box-sizing: border-box;
   }
-  .produit img { width: 100%; height: 150px; object-fit: cover; border-radius: 10px; }
+  .produit img { width: 100%; height: 160px; object-fit: cover; border-radius: 10px; }
+  .produit h2 { font-size: 1.1em; margin: 10px 0 5px 0; }
+  .produit p { margin: 5px 0; }
+  .produit p.description { font-size: 0.9em; color: #555; }
   button.ajouter { 
     background-color: #ff1493;
     color: white; 
@@ -160,7 +68,40 @@ const produits = [
   input[type="number"] { width: 50px; text-align: center; }
   @media (max-width: 600px) {
     .produit { width: 100%; }
-    .categories button { font-size: 0.9em; padding: 8px
+    .categories button { font-size: 0.9em; padding: 8px 12px; }
+  }
+</style>
+</head>
+<body>
+
+<h1>L’atelier seconde main de Vedène 🌸</h1>
+
+<div class="categories">
+  <button onclick="filtrer('Tout')">Tout</button>
+  <button onclick="filtrer('Vêtements')">Vêtements</button>
+</div>
+
+<div id="boutique"></div>
+
+<div id="panier">
+  <h2>Panier</h2>
+  <ul id="liste-panier"></ul>
+  <p>Total : <span id="total">0</span>€</p>
+  <button onclick="payer()">Payer avec PayPal</button>
+</div>
+
+<script>
+const produits = [
+  { nom: "Veste beige & moutarde", prix: 28, image: "URL_IMAGE_1", categorie: "Vêtements", description: "Veste vintage bicolore, parfaite pour l’automne 🍂" },
+  { nom: "Veste carreaux noir & blanc", prix: 32, image: "URL_IMAGE_2", categorie: "Vêtements", description: "Style intemporel, facile à assortir avec un jean 👖" },
+  { nom: "Blazer noir élégant", prix: 35, image: "URL_IMAGE_3", categorie: "Vêtements", description: "Idéal pour une soirée chic ou un look pro ✨" },
+  { nom: "Veste imprimée fleurie", prix: 30, image: "URL_IMAGE_4", categorie: "Vêtements", description: "Féminine et légère, à porter au printemps 🌸" },
+  { nom: "Robe rayée chic", prix: 38, image: "URL_IMAGE_5", categorie: "Vêtements", description: "Coupe élégante et moderne, parfaite en toute saison 👗" },
+  { nom: "Veste carreaux rouge", prix: 32, image: "URL_IMAGE_6", categorie: "Vêtements", description: "Look tendance avec une touche de couleur ❤️" },
+  { nom: "Veste bordeaux moderne", prix: 34, image: "URL_IMAGE_7", categorie: "Vêtements", description: "Sobre et élégante, idéale pour un look raffiné 🍷" },
+  { nom: "Veste carreaux bleus", prix: 32, image: "URL_IMAGE_8", categorie: "Vêtements", description: "Motif discret, parfait pour un style casual 💙" },
+  { nom: "Veste carreaux gris", prix: 32, image: "URL_IMAGE_9", categorie: "Vêtements", description: "Classique et passe-partout, un incontournable 🖤" }
+];
 
 let panier = [];
 let filtreActif = "Tout";
@@ -178,7 +119,8 @@ function afficherProduits() {
       div.innerHTML = `
         <img src="${p.image}" alt="${p.nom}">
         <h2>${p.nom}</h2>
-        <p>Prix : ${p.prix}€</p>
+        <p><strong>${p.prix}€</strong></p>
+        <p class="description">${p.description}</p>
         <button class="ajouter" onclick="ajouterPanier(${index})">Ajouter au panier</button>
       `;
       boutiqueDiv.appendChild(div);
@@ -239,6 +181,6 @@ function payer() {
   window.open(urlPayPal, "_blank");
 }
 </script>
-</body>
 
+</body>
 </html>
